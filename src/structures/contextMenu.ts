@@ -1,6 +1,6 @@
 export type ContextMenuParentId = string | null | undefined;
 export type ContextMenuId = string;
-export type UserInput = string;
+export type UserInput = string | null;
 export type ContextMenuRun = (userInput: UserInput) => void | Promise<void>;
 
 export interface ContextMenuConfig {
