@@ -7,9 +7,9 @@ export type Identifier = string;
 export type Children = { [key: Identifier]: ContextMenuId };
 
 export interface Selected {
-  id: ContextMenuId;
-  run: ContextMenuRun;
-  children: Children;
+  readonly id: ContextMenuId;
+  readonly run: ContextMenuRun;
+  readonly children: Children;
 }
 
 export class Builder {
