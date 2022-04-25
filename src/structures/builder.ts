@@ -15,6 +15,7 @@ export interface Selected {
 export class Builder {
   private static readonly contextMenus: ContextMenu[] = [];
   private static selected: Selected | null = null;
+  private static readonly DEFAULT_CONTEXT_MENU_ID: ContextMenuId = "main";
 
   public static createContextMenu(contextMenuConfig: ContextMenuConfig): ContextMenu {
     const contextMenu = new ContextMenu(contextMenuConfig);
@@ -38,7 +39,7 @@ export class Builder {
   }
 
   public static build(): void {
-    if (this.selected === null) {
+    if (this.selected === null && this.select(this.DEFAULT_CONTEXT_MENU_ID) === null) {
       return;
     }
 
