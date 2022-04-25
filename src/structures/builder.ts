@@ -42,38 +42,38 @@ export class Builder {
       return;
     }
 
-    const listener = (userInput: UserInput): void => {
-      if (Builder.selected === null) {
-        return;
-      }
+    Builder.listener(null);
+    Builder.listenForUserInput(Builder.listener);
+  }
 
-      console.clear();
+  private static listener(userInput: UserInput): void {
+    if (Builder.selected === null) {
+      return;
+    }
 
-      if (userInput !== null && Object.keys(Builder.selected.children).includes(userInput)) {
-        Builder.select(Builder.selected.children[userInput]);
-        userInput = null;
-      }
+    console.clear();
 
-      const selectedId = Builder.selected.id;
+    if (userInput !== null && Object.keys(Builder.selected.children).includes(userInput)) {
+      Builder.select(Builder.selected.children[userInput]);
+      userInput = null;
+    }
 
-      Builder.selected.run(userInput);
+    const selectedId = Builder.selected.id;
 
-      if (Builder.selected.id !== selectedId) {
-        listener(null);
-        return;
-      }
+    Builder.selected.run(userInput);
 
-      const text = Object.entries(Builder.selected.children).reduce((res, [identifier, contextMenuId]) => {
-        return res + `(${identifier}) ${contextMenuId}; `;
-      }, "");
+    if (Builder.selected.id !== selectedId) {
+      Builder.listener(null);
+      return;
+    }
 
-      if (text) {
-        console.log(text);
-      }
-    };
+    const text = Object.entries(Builder.selected.children).reduce((res, [identifier, contextMenuId]) => {
+      return res + `(${identifier}) ${contextMenuId}; `;
+    }, "");
 
-    listener(null);
-    Builder.listenForUserInput(listener);
+    if (text) {
+      console.log(text);
+    }
   }
 
   private static formatContextMenus(contextMenus: ContextMenu[]): Children {
