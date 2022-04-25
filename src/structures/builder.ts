@@ -18,18 +18,18 @@ export class Builder {
 
   public static createContextMenu(contextMenuConfig: ContextMenuConfig): ContextMenu {
     const contextMenu = new ContextMenu(contextMenuConfig);
-    Builder.contextMenus.push(contextMenu);
+    this.contextMenus.push(contextMenu);
     return contextMenu;
   }
 
   public static select(contextMenuId: ContextMenuId): ContextMenu | null {
-    const contextMenu = Builder.contextMenus.find((contextMenu) => contextMenu.getId() === contextMenuId);
+    const contextMenu = this.contextMenus.find((contextMenu) => contextMenu.getId() === contextMenuId);
     if (contextMenu) {
-      Builder.selected = {
+      this.selected = {
         id: contextMenuId,
         run: contextMenu.getRun(),
-        children: Builder.formatContextMenus(
-          Builder.contextMenus.filter((contextMenu) => contextMenu.getParentId() === contextMenuId)
+        children: this.formatContextMenus(
+          this.contextMenus.filter((contextMenu) => contextMenu.getParentId() === contextMenuId)
         )
       };
       return contextMenu;
@@ -38,12 +38,12 @@ export class Builder {
   }
 
   public static build(): void {
-    if (Builder.selected === null) {
+    if (this.selected === null) {
       return;
     }
 
-    Builder.listener(null);
-    Builder.listenForUserInput(Builder.listener);
+    this.listener(null);
+    this.listenForUserInput(this.listener);
   }
 
   private static listener(userInput: UserInput): void {
