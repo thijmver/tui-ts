@@ -10,7 +10,7 @@ export type State = { [key: PropertyKey]: unknown };
 export interface Selected {
   readonly id: ContextMenuId;
   readonly run: ContextMenuRun;
-  readonly children: Children;
+  readonly children: Readonly<Children>;
 }
 
 export class Builder {
