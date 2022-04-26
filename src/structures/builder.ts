@@ -22,18 +22,18 @@ export class Builder {
 
   public static createContextMenu(contextMenuConfig: ContextMenuConfig): ContextMenu {
     const contextMenu = new ContextMenu(contextMenuConfig);
-    this.contextMenus.push(contextMenu);
+    Builder.contextMenus.push(contextMenu);
     return contextMenu;
   }
 
   public static select(contextMenuId: ContextMenuId): ContextMenu | null {
-    const contextMenu = this.contextMenus.find((contextMenu) => contextMenu.getId() === contextMenuId);
+    const contextMenu = Builder.contextMenus.find((contextMenu) => contextMenu.getId() === contextMenuId);
     if (contextMenu) {
-      this.selected = {
+      Builder.selected = {
         id: contextMenuId,
         run: contextMenu.getRun(),
-        children: this.formatContextMenus(
-          this.contextMenus.filter((contextMenu) => contextMenu.getParentId() === contextMenuId)
+        children: Builder.formatContextMenus(
+          Builder.contextMenus.filter((contextMenu) => contextMenu.getParentId() === contextMenuId)
         )
       };
       return contextMenu;
@@ -42,20 +42,20 @@ export class Builder {
   }
 
   public static build(): void {
-    if (this.selected === null && this.select(this.DEFAULT_CONTEXT_MENU_ID) === null) {
+    if (Builder.selected === null && Builder.select(Builder.DEFAULT_CONTEXT_MENU_ID) === null) {
       return;
     }
 
-    this.listener(null);
-    this.listenForUserInput(this.listener);
+    Builder.listener(null);
+    Builder.listenForUserInput(Builder.listener);
   }
 
   public static getState(): Readonly<State> {
-    return this.state;
+    return Builder.state;
   }
 
   public static setState(state: State): void {
-    this.state = state;
+    Builder.state = state;
   }
 
   private static async listener(userInput: UserInput): Promise<void> {
