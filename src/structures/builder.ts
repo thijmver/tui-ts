@@ -8,9 +8,9 @@ export type Children = { [key: Identifier]: ContextMenuId };
 export type State = { [key: PropertyKey]: unknown };
 
 export interface Selected {
-  readonly id: ContextMenuId;
-  readonly run: ContextMenuRun;
-  readonly children: Readonly<Children>;
+  id: ContextMenuId;
+  run: ContextMenuRun;
+  children: Readonly<Children>;
 }
 
 export interface Frozen {
@@ -20,7 +20,7 @@ export interface Frozen {
 
 export class Builder {
   private static readonly contextMenus: ContextMenu[] = [];
-  private static selected: Selected | null = null;
+  private static selected: Readonly<Selected> | null = null;
   private static state: Readonly<State> = {};
   private static readonly frozen: Frozen = { default: false, byUser: false };
   private static readonly DEFAULT_CONTEXT_MENU_ID: ContextMenuId = "main";
