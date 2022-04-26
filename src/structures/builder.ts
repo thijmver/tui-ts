@@ -17,6 +17,7 @@ export class Builder {
   private static readonly contextMenus: ContextMenu[] = [];
   private static selected: Selected | null = null;
   private static state: Readonly<State> = {};
+  private static frozen: boolean = false;
   private static readonly DEFAULT_CONTEXT_MENU_ID: ContextMenuId = "main";
 
   public static createContextMenu(contextMenuConfig: ContextMenuConfig): ContextMenu {
@@ -57,11 +58,13 @@ export class Builder {
     this.state = state;
   }
 
-  private static listener(userInput: UserInput): void {
-    if (Builder.selected === null) {
+  private static async listener(userInput: UserInput): Promise<void> {
+    // TODO: clear new lines when frozen.
+    if (Builder.selected === null || Builder.frozen === true) {
       return;
     }
 
+    Builder.frozen = true;
     console.clear();
 
     if (userInput !== null && Object.keys(Builder.selected.children).includes(userInput)) {
@@ -71,7 +74,7 @@ export class Builder {
 
     const selectedId = Builder.selected.id;
 
-    Builder.selected.run(userInput);
+    await Builder.selected.run(userInput);
 
     if (Builder.selected.id !== selectedId) {
       Builder.listener(null);
@@ -85,6 +88,8 @@ export class Builder {
     if (text) {
       console.log(text);
     }
+
+    Builder.frozen = false;
   }
 
   // TODO: implement proper algorithm.
