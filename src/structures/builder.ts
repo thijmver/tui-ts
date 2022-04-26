@@ -13,16 +13,11 @@ export interface Selected {
   children: Readonly<Children>;
 }
 
-export interface Frozen {
-  default: boolean;
-  byUser: boolean;
-}
-
 export class Builder {
   private static readonly contextMenus: ContextMenu[] = [];
   private static selected: Readonly<Selected> | null = null;
   private static state: Readonly<State> = {};
-  private static readonly frozen: Frozen = { default: false, byUser: false };
+  private static frozen: boolean = false;
   private static readonly DEFAULT_CONTEXT_MENU_ID: ContextMenuId = "main";
 
   public static createContextMenu(contextMenuConfig: ContextMenuConfig): ContextMenu {
@@ -63,17 +58,13 @@ export class Builder {
     this.state = state;
   }
 
-  public static freeze(freeze: boolean = true) {
-    this.frozen.byUser = freeze;
-  }
-
   private static async listener(userInput: UserInput): Promise<void> {
     // TODO: clear new lines when frozen.
-    if (Builder.selected === null || Builder.frozen.default === true || Builder.frozen.byUser === true) {
+    if (Builder.selected === null || Builder.frozen === true) {
       return;
     }
 
-    Builder.frozen.default = true;
+    Builder.frozen = true;
     console.clear();
 
     if (userInput !== null && Object.keys(Builder.selected.children).includes(userInput)) {
@@ -85,7 +76,7 @@ export class Builder {
 
     await Builder.selected.run(userInput);
 
-    Builder.frozen.default = false;
+    Builder.frozen = false;
 
     if (Builder.selected.id !== selectedId) {
       Builder.listener(null);
