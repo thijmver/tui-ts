@@ -85,6 +85,8 @@ export class Builder {
 
     await Builder.selected.run(userInput);
 
+    Builder.frozen.default = false;
+
     if (Builder.selected.id !== selectedId) {
       Builder.listener(null);
       return;
@@ -97,8 +99,6 @@ export class Builder {
     if (text) {
       console.log(text);
     }
-
-    Builder.frozen.default = false;
   }
 
   // TODO: implement proper algorithm.
