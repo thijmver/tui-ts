@@ -6,6 +6,7 @@
     "camelcase": "error",
     "no-trailing-spaces": "warn",
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error"]
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/no-inferrable-types": ["off"]
   }
 }
