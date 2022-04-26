@@ -77,6 +77,7 @@ export class Builder {
     }
   }
 
+  // TODO: implement proper algorithm.
   private static formatContextMenus(contextMenus: ContextMenu[]): Children {
     const children: Children = {};
 
