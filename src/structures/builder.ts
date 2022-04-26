@@ -5,6 +5,7 @@ import { ContextMenuId, UserInput, ContextMenuRun, ContextMenuRun as Listener, C
 
 export type Identifier = string;
 export type Children = { [key: Identifier]: ContextMenuId };
+export type State = { [key: PropertyKey]: unknown };
 
 export interface Selected {
   readonly id: ContextMenuId;
@@ -15,6 +16,7 @@ export interface Selected {
 export class Builder {
   private static readonly contextMenus: ContextMenu[] = [];
   private static selected: Selected | null = null;
+  private static state: Readonly<State> = {};
   private static readonly DEFAULT_CONTEXT_MENU_ID: ContextMenuId = "main";
 
   public static createContextMenu(contextMenuConfig: ContextMenuConfig): ContextMenu {
@@ -45,6 +47,14 @@ export class Builder {
 
     this.listener(null);
     this.listenForUserInput(this.listener);
+  }
+
+  public static getState(): Readonly<State> {
+    return this.state;
+  }
+
+  public static setState(state: State): void {
+    this.state = state;
   }
 
   private static listener(userInput: UserInput): void {
