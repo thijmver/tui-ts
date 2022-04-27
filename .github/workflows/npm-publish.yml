@@ -12,6 +12,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+          registry-url: 'https://registry.npmjs.org'
       - name: Install
         run: npm ci
       - name: Test
@@ -19,12 +20,12 @@ jobs:
       - name: Build
         run: npm run build
       - name: Publish
-        if: "!contains(github.event.release.name, 'beta')"
+        if: "!contains(github.event.release.tag_name, 'beta')"
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Publish as beta
-        if: contains(github.event.release.name, 'beta')
+        if: contains(github.event.release.tag_name, 'beta')
         run: npm publish --tag beta
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
