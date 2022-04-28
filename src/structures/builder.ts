@@ -4,6 +4,7 @@ import { stdin } from "process";
 import { ContextMenuId, UserInput, ContextMenuRun, ContextMenuRun as Listener, ContextMenuConfig, ContextMenu } from "./contextMenu";
 
 export type ContextMenuIdentifier = string;
+export type State = BuilderState;
 
 export interface ContextMenuChildren {
   [key: ContextMenuIdentifier]: ContextMenuId;
@@ -56,11 +57,11 @@ export class Builder {
     Builder.listenForUserInput(Builder.listener);
   }
 
-  public static getState(): Readonly<BuilderState> {
+  public static getState(): Readonly<State> {
     return Builder.state;
   }
 
-  public static setState(state: BuilderState): void {
+  public static setState(state: State): void {
     Builder.state = state;
   }
 
