@@ -4,9 +4,9 @@ export type UserInput = string | null;
 export type ContextMenuRun = (userInput: UserInput) => void | Promise<void>;
 
 export interface ContextMenuConfig {
-  readonly parentId?: ContextMenuParentId;
-  readonly id: ContextMenuId;
-  readonly run: ContextMenuRun;
+  parentId?: ContextMenuParentId;
+  id: ContextMenuId;
+  run: ContextMenuRun;
 }
 
 export class ContextMenu {
