@@ -20,7 +20,7 @@ export class Builder {
   private static frozen: boolean = false;
   private static readonly DEFAULT_CONTEXT_MENU_ID: ContextMenuId = "main";
 
-  public static createContextMenu(contextMenuConfig: ContextMenuConfig): ContextMenu {
+  public static createContextMenu(contextMenuConfig: Readonly<ContextMenuConfig>): ContextMenu {
     const contextMenu = new ContextMenu(contextMenuConfig);
     Builder.contextMenus.push(contextMenu);
     return contextMenu;
@@ -93,7 +93,7 @@ export class Builder {
   }
 
   // TODO: implement proper algorithm.
-  private static formatContextMenus(contextMenus: ContextMenu[]): Children {
+  private static formatContextMenus(contextMenus: Readonly<ContextMenu[]>): Children {
     const children: Children = {};
 
     const createIdentifier = (contextMenuId: ContextMenuId, identifier?: Identifier): Identifier => {

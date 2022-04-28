@@ -14,7 +14,7 @@ export class ContextMenu {
   private readonly id: ContextMenuId;
   private readonly run: ContextMenuRun;
 
-  public constructor(contextMenuConfig: ContextMenuConfig) {
+  public constructor(contextMenuConfig: Readonly<ContextMenuConfig>) {
     this.parentId = contextMenuConfig.parentId;
     this.id = contextMenuConfig.id;
     this.run = contextMenuConfig.run;
