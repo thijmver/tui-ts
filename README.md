@@ -10,6 +10,12 @@ Using NPM:
 npm i tui-ts
 ```
 
+Using Yarn:
+
+```
+yarn add tui-ts
+```
+
 # Example
 
 ```ts
