@@ -4,8 +4,14 @@ import { stdin } from "process";
 import { ContextMenuId, UserInput, ContextMenuRun, ContextMenuRun as Listener, ContextMenuConfig, ContextMenu } from "./contextMenu";
 
 export type ContextMenuIdentifier = string;
-export type ContextMenuChildren = { [key: ContextMenuIdentifier]: ContextMenuId };
-export type BuilderState = { [key: PropertyKey]: unknown };
+
+export interface ContextMenuChildren {
+  [key: ContextMenuIdentifier]: ContextMenuId;
+}
+
+export interface BuilderState {
+  [key: PropertyKey]: unknown;
+}
 
 export interface BuilderSelected {
   id: ContextMenuId;
