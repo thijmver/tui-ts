@@ -3,14 +3,14 @@ import { stdin } from "process";
 // prettier-ignore
 import { ContextMenuId, UserInput, ContextMenuRun, ContextMenuRun as Listener, ContextMenuConfig, ContextMenu } from "./contextMenu";
 
-export type Identifier = string;
-export type Children = { [key: Identifier]: ContextMenuId };
+export type ContextMenuIdentifier = string;
+export type ContextMenuChildren = { [key: ContextMenuIdentifier]: ContextMenuId };
 export type BuilderState = { [key: PropertyKey]: unknown };
 
 export interface BuilderSelected {
   id: ContextMenuId;
   run: ContextMenuRun;
-  children: Readonly<Children>;
+  children: Readonly<ContextMenuChildren>;
 }
 
 export class Builder {
@@ -93,10 +93,11 @@ export class Builder {
   }
 
   // TODO: implement proper algorithm.
-  private static formatContextMenus(contextMenus: Readonly<ContextMenu[]>): Children {
-    const children: Children = {};
+  private static formatContextMenus(contextMenus: Readonly<ContextMenu[]>): ContextMenuChildren {
+    const children: ContextMenuChildren = {};
 
-    const createIdentifier = (contextMenuId: ContextMenuId, identifier?: Identifier): Identifier => {
+    // prettier-ignore
+    const createIdentifier = (contextMenuId: ContextMenuId, identifier?: ContextMenuIdentifier): ContextMenuIdentifier => {
       identifier = identifier === undefined ? contextMenuId[0] : identifier + contextMenuId[identifier.length];
       if (Object.keys(children).includes(identifier)) {
         return createIdentifier(contextMenuId, identifier);
