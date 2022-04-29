@@ -19,7 +19,7 @@ yarn add tui-ts
 # Example
 
 ```ts
-import { createContextMenu, build } from "tui-ts";
+import { createContextMenu, UserInput, build } from "tui-ts";
 
 createContextMenu({
   id: "main",
@@ -31,11 +31,65 @@ createContextMenu({
 createContextMenu({
   parentId: "main",
   id: "some-other-menu",
-  run: (userInput: string | null) => {
+  run: (userInput: UserInput) => {
     console.log(userInput);
     console.log("this is another menu.");
   }
 });
 
 build();
+```
+
+# Documentation
+
+### build(): void
+
+```ts
+// example:
+import { build } from "tui-ts";
+
+build();
+```
+
+### createContextMenu(contextMenuConfig: Readonly\<ContextMenuConfig>): ContextMenu
+
+```ts
+// example:
+import { createContextMenu, UserInput } from "tui-ts";
+
+createContextMenu({
+  id: "foo",
+  run: (userInput: UserInput) => {
+    console.log(userInput);
+  }
+});
+```
+
+### getState(): Readonly\<State>
+
+```ts
+// example:
+import { getState } from "tui-ts";
+
+const state = getState();
+console.log(state["foo"]);
+```
+
+### select(contextMenuId: ContextMenuId): ContextMenu | null
+
+```ts
+// example:
+import { select } from "tui-ts";
+
+select("foo");
+```
+
+### setState(state: State): void
+
+```ts
+// example:
+import { getState, setState } from "tui-ts";
+
+const state = getState();
+setState({ ...state, foo: "bar" });
 ```
