@@ -1,11 +1,19 @@
 {
   "name": "tui-ts",
+  "description": "An easy way to build tui's using context menus.",
   "version": "1.0.0-beta.0",
   "repository": "thijmver/tui-ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
+  ],
+  "keywords": [
+    "tui",
+    "cli",
+    "util",
+    "console",
+    "TypeScript"
   ],
   "scripts": {
     "build": "tsc",
