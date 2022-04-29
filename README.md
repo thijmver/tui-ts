@@ -19,8 +19,10 @@ yarn add tui-ts
 # Example
 
 ```ts
+// import the functions and the "UserInput" type.
 import { createContextMenu, UserInput, build } from "tui-ts";
 
+// create the first context menu.
 createContextMenu({
   id: "main",
   run: () => {
@@ -28,7 +30,10 @@ createContextMenu({
   }
 });
 
+// create the second context menu.
 createContextMenu({
+  // by defining "main" as the parentId,
+  // this context menu becomes a child of the first created context menu.
   parentId: "main",
   id: "some-other-menu",
   run: (userInput: UserInput) => {
@@ -37,6 +42,7 @@ createContextMenu({
   }
 });
 
+// build the application.
 build();
 ```
 
