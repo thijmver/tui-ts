@@ -1,13 +1,4 @@
-export type ContextMenuParentId = string | null | undefined;
-export type ContextMenuId = string;
-export type UserInput = string | null;
-export type ContextMenuRun = (userInput: UserInput) => void | Promise<void>;
-
-export interface ContextMenuConfig {
-  parentId?: ContextMenuParentId;
-  id: ContextMenuId;
-  run: ContextMenuRun;
-}
+import { ContextMenuParentId, ContextMenuId, ContextMenuRun, ContextMenuConfig } from "../types";
 
 export class ContextMenu {
   private readonly parentId: ContextMenuParentId;

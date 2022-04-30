@@ -1,24 +1,17 @@
 import { createInterface } from "readline";
 import { stdin } from "process";
-// prettier-ignore
-import { ContextMenuId, UserInput, ContextMenuRun, ContextMenuRun as Listener, ContextMenuConfig, ContextMenu } from "./contextMenu";
-
-export type ContextMenuIdentifier = string;
-export type BuilderState = State;
-
-export interface ContextMenuChildren {
-  [key: ContextMenuIdentifier]: ContextMenuId;
-}
-
-export interface State {
-  [key: PropertyKey]: unknown;
-}
-
-export interface BuilderSelected {
-  id: ContextMenuId;
-  run: ContextMenuRun;
-  children: Readonly<ContextMenuChildren>;
-}
+import { ContextMenu } from "./contextMenu";
+import {
+  BuilderSelected,
+  BuilderState,
+  ContextMenuId,
+  ContextMenuConfig,
+  State,
+  UserInput,
+  ContextMenuChildren,
+  ContextMenuIdentifier,
+  Listener
+} from "../types";
 
 export class Builder {
   private static readonly contextMenus: ContextMenu[] = [];
