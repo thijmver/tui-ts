@@ -21,12 +21,36 @@ export class Builder {
   private static readonly DEFAULT_CONTEXT_MENU_ID: ContextMenuId = "main";
 
   public static createContextMenu(contextMenuConfig: Readonly<ContextMenuConfig>): ContextMenu {
+    if (typeof contextMenuConfig !== "object") {
+      throw new Error("contextMenuConfig is not of type object.");
+    }
+
+    if (typeof contextMenuConfig.id !== "string") {
+      throw new Error("contextMenuConfig.id is not of type string.");
+    }
+
+    if (
+      typeof contextMenuConfig.parentId !== "string" &&
+      contextMenuConfig.parentId !== null &&
+      contextMenuConfig.parentId !== undefined
+    ) {
+      throw new Error("contextMenuConfig.parentId is not of type string, null or undefined.");
+    }
+
+    if (typeof contextMenuConfig.run !== "function") {
+      throw new Error("contextMenuConfig.run is not of type function.");
+    }
+
     const contextMenu = new ContextMenu(contextMenuConfig);
     Builder.contextMenus.push(contextMenu);
     return contextMenu;
   }
 
-  public static select(contextMenuId: ContextMenuId): ContextMenu | null {
+  public static select(contextMenuId: ContextMenuId): ContextMenu {
+    if (typeof contextMenuId !== "string") {
+      throw new Error("contextMenuId is not of type string.");
+    }
+
     const contextMenu = Builder.contextMenus.find((contextMenu) => contextMenu.getId() === contextMenuId);
     if (contextMenu) {
       Builder.selected = {
@@ -38,12 +62,19 @@ export class Builder {
       };
       return contextMenu;
     }
-    return null;
+
+    throw new Error(`could not find context menu with id: ${contextMenuId}.`);
   }
 
   public static build(): void {
-    if (Builder.selected === null && Builder.select(Builder.DEFAULT_CONTEXT_MENU_ID) === null) {
-      return;
+    if (Builder.selected === null) {
+      try {
+        Builder.select(Builder.DEFAULT_CONTEXT_MENU_ID);
+      } catch {
+        throw new Error(
+          `no context menu had been selected and none could be found with default id: ${Builder.DEFAULT_CONTEXT_MENU_ID}.`
+        );
+      }
     }
 
     Builder.listener(null);
@@ -55,6 +86,9 @@ export class Builder {
   }
 
   public static setState(state: State): void {
+    if (typeof state !== "object") {
+      throw new Error("state is not of type object.");
+    }
     Builder.state = state;
   }
 
