@@ -21,38 +21,6 @@ export class Builder {
   private static readonly DEFAULT_CONTEXT_MENU_ID: ContextMenuId = "main";
 
   public static createContextMenu(contextMenuConfig: Readonly<ContextMenuConfig>): ContextMenu {
-    if (contextMenuConfig === undefined) {
-      throw new Error("contextMenuConfig is missing.");
-    }
-
-    if (typeof contextMenuConfig !== "object") {
-      throw new Error("contextMenuConfig is not of type object.");
-    }
-
-    if (contextMenuConfig.id === undefined) {
-      throw new Error("contextMenuConfig.id is missing.");
-    }
-
-    if (typeof contextMenuConfig.id !== "string") {
-      throw new Error("contextMenuConfig.id is not of type string.");
-    }
-
-    if (
-      typeof contextMenuConfig.parentId !== "string" &&
-      contextMenuConfig.parentId !== null &&
-      contextMenuConfig.parentId !== undefined
-    ) {
-      throw new Error("contextMenuConfig.parentId is not of type string, null or undefined.");
-    }
-
-    if (contextMenuConfig.run === undefined) {
-      throw new Error("contextMenuConfig.run is missing.");
-    }
-
-    if (typeof contextMenuConfig.run !== "function") {
-      throw new Error("contextMenuConfig.run is not of type function.");
-    }
-
     const contextMenu = new ContextMenu(contextMenuConfig);
     Builder.contextMenus.push(contextMenu);
     return contextMenu;
