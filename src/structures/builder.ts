@@ -52,18 +52,19 @@ export class Builder {
     }
 
     const contextMenu = Builder.contextMenus.find((contextMenu) => contextMenu.getId() === contextMenuId);
-    if (contextMenu) {
-      Builder.selected = {
-        id: contextMenuId,
-        run: contextMenu.getRun(),
-        children: Builder.formatContextMenus(
-          Builder.contextMenus.filter((contextMenu) => contextMenu.getParentId() === contextMenuId)
-        )
-      };
-      return contextMenu;
+    if (contextMenu === undefined) {
+      throw new Error(`could not find context menu with id: ${contextMenuId}.`);
     }
 
-    throw new Error(`could not find context menu with id: ${contextMenuId}.`);
+    Builder.selected = {
+      id: contextMenuId,
+      run: contextMenu.getRun(),
+      children: Builder.formatContextMenus(
+        Builder.contextMenus.filter((contextMenu) => contextMenu.getParentId() === contextMenuId)
+      )
+    };
+
+    return contextMenu;
   }
 
   public static build(): void {
