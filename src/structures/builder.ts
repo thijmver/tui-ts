@@ -26,24 +26,36 @@ export class Builder {
     return contextMenu;
   }
 
-  public static select(contextMenuId: ContextMenuId): ContextMenu | null {
-    const contextMenu = Builder.contextMenus.find((contextMenu) => contextMenu.getId() === contextMenuId);
-    if (contextMenu) {
-      Builder.selected = {
-        id: contextMenuId,
-        run: contextMenu.getRun(),
-        children: Builder.formatContextMenus(
-          Builder.contextMenus.filter((contextMenu) => contextMenu.getParentId() === contextMenuId)
-        )
-      };
-      return contextMenu;
+  public static select(contextMenuId: ContextMenuId): ContextMenu {
+    if (typeof contextMenuId !== "string") {
+      throw new Error("contextMenuId is not of type string.");
     }
-    return null;
+
+    const contextMenu = Builder.contextMenus.find((contextMenu) => contextMenu.getId() === contextMenuId);
+    if (contextMenu === undefined) {
+      throw new Error(`could not find context menu with id: ${contextMenuId}.`);
+    }
+
+    Builder.selected = {
+      id: contextMenuId,
+      run: contextMenu.getRun(),
+      children: Builder.formatContextMenus(
+        Builder.contextMenus.filter((contextMenu) => contextMenu.getParentId() === contextMenuId)
+      )
+    };
+
+    return contextMenu;
   }
 
   public static build(): void {
-    if (Builder.selected === null && Builder.select(Builder.DEFAULT_CONTEXT_MENU_ID) === null) {
-      return;
+    if (Builder.selected === null) {
+      try {
+        Builder.select(Builder.DEFAULT_CONTEXT_MENU_ID);
+      } catch {
+        throw new Error(
+          `no context menu had been selected and none could be found with default id: ${Builder.DEFAULT_CONTEXT_MENU_ID}.`
+        );
+      }
     }
 
     Builder.listener(null);
@@ -55,6 +67,9 @@ export class Builder {
   }
 
   public static setState(state: State): void {
+    if (typeof state !== "object") {
+      throw new Error("state is not of type object.");
+    }
     Builder.state = state;
   }
 
