@@ -21,6 +21,10 @@ export class Builder {
   private static readonly DEFAULT_CONTEXT_MENU_ID: ContextMenuId = "main";
 
   public static createContextMenu(contextMenuConfig: Readonly<ContextMenuConfig>): ContextMenu {
+    if (Builder.contextMenus.find((contextMenu) => contextMenu.getId() === contextMenuConfig.id)) {
+      throw new Error(`a context menu with id: ${contextMenuConfig.id} already exists.`);
+    }
+
     const contextMenu = new ContextMenu(contextMenuConfig);
     Builder.contextMenus.push(contextMenu);
     return contextMenu;
