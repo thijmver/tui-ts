@@ -81,7 +81,7 @@ const state = getState();
 console.log(state["foo"]);
 ```
 
-### select(contextMenuId: ContextMenuId): ContextMenu | null
+### select(contextMenuId: ContextMenuId): ContextMenu
 
 ```ts
 // example:
