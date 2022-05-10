@@ -54,7 +54,9 @@ export class Builder {
       id: contextMenuId,
       run: contextMenu.getRun(),
       children: Builder.formatContextMenus(
-        Builder.contextMenus.filter((contextMenu) => contextMenu.getParentId() === contextMenuId)
+        Builder.contextMenus
+          .filter((contextMenu) => contextMenu.getParentId() === contextMenuId)
+          .sort((a, b) => (a.getIdentifier() === b.getIdentifier() ? 0 : a.getIdentifier() ? -1 : 1))
       )
     };
 
