@@ -1,8 +1,9 @@
-import { ContextMenuParentId, ContextMenuId, ContextMenuRun, ContextMenuConfig } from "../types";
+import { ContextMenuParentId, ContextMenuId, ContextMenuIdentifier, ContextMenuRun, ContextMenuConfig } from "../types";
 
 export class ContextMenu {
   private readonly parentId: ContextMenuParentId;
   private readonly id: ContextMenuId;
+  private readonly identifier: ContextMenuIdentifier;
   private readonly run: ContextMenuRun;
 
   public constructor(contextMenuConfig: Readonly<ContextMenuConfig>) {
@@ -22,12 +23,17 @@ export class ContextMenu {
       throw new Error("contextMenuConfig.parentId is not of type string, null or undefined.");
     }
 
+    if (typeof contextMenuConfig.identifier !== "string" && contextMenuConfig.identifier !== undefined) {
+      throw new Error("contextMenuConfig.identifier is not of type string or undefined.");
+    }
+
     if (typeof contextMenuConfig.run !== "function") {
       throw new Error("contextMenuConfig.run is not of type function.");
     }
 
     this.parentId = contextMenuConfig.parentId;
     this.id = contextMenuConfig.id;
+    this.identifier = contextMenuConfig.identifier;
     this.run = contextMenuConfig.run;
   }
 
@@ -37,6 +43,10 @@ export class ContextMenu {
 
   public getId(): ContextMenuId {
     return this.id;
+  }
+
+  public getIdentifier(): ContextMenuIdentifier {
+    return this.identifier;
   }
 
   public getRun(): ContextMenuRun {

@@ -9,7 +9,7 @@ import {
   State,
   UserInput,
   ContextMenuChildren,
-  ContextMenuIdentifier,
+  Identifier,
   Listener
 } from "../types";
 
@@ -26,6 +26,13 @@ export class Builder {
       Builder.contextMenus.find((contextMenu) => contextMenu.getId() === contextMenuConfig.id)
     ) {
       throw new Error(`a context menu with id: ${contextMenuConfig.id} already exists.`);
+    }
+
+    if (
+      contextMenuConfig?.identifier &&
+      Builder.contextMenus.find((contextMenu) => contextMenu.getIdentifier() === contextMenuConfig.identifier)
+    ) {
+      throw new Error(`a context menu with identifier: ${contextMenuConfig.identifier} already exists.`);
     }
 
     const contextMenu = new ContextMenu(contextMenuConfig);
@@ -47,7 +54,9 @@ export class Builder {
       id: contextMenuId,
       run: contextMenu.getRun(),
       children: Builder.formatContextMenus(
-        Builder.contextMenus.filter((contextMenu) => contextMenu.getParentId() === contextMenuId)
+        Builder.contextMenus
+          .filter((contextMenu) => contextMenu.getParentId() === contextMenuId)
+          .sort((a, b) => (a.getIdentifier() === b.getIdentifier() ? 0 : a.getIdentifier() ? -1 : 1))
       )
     };
 
@@ -119,7 +128,7 @@ export class Builder {
     const children: ContextMenuChildren = {};
 
     // prettier-ignore
-    const createIdentifier = (contextMenuId: ContextMenuId, identifier?: ContextMenuIdentifier): ContextMenuIdentifier => {
+    const createIdentifier = (contextMenuId: ContextMenuId, identifier?: Identifier): Identifier => {
       identifier = identifier === undefined ? contextMenuId[0] : identifier + contextMenuId[identifier.length];
       if (Object.keys(children).includes(identifier)) {
         return createIdentifier(contextMenuId, identifier);
@@ -128,7 +137,7 @@ export class Builder {
     };
 
     for (const contextMenu of contextMenus) {
-      const identifier = createIdentifier(contextMenu.getId());
+      const identifier = contextMenu.getIdentifier() || createIdentifier(contextMenu.getId());
       children[identifier] = contextMenu.getId();
     }
 
