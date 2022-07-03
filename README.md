@@ -1,3 +1,5 @@
+This package has been deleted from [NPM](https://www.npmjs.com/) and this repository will be archived.
+
 # About
 
 "tui-ts" is a package that makes it extremely easy to build [text-based user interfaces](https://en.wikipedia.org/wiki/Text-based_user_interface) using [context menus](https://en.wikipedia.org/wiki/Context_menu).
